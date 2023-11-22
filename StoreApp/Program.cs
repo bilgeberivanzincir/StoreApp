@@ -2,6 +2,8 @@ using StoreApp.Infrastructure.Extension;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);//api
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
@@ -13,6 +15,7 @@ builder.Services.ConfigureSession();
 builder.Services.ConfigureRepositoryRegistration();
 builder.Services.ConfigureServiceRegistration();
 builder.Services.ConfigureRouting();
+builder.Services.ConfigureApplicationCookie();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -37,11 +40,13 @@ app.UseEndpoints(endpoints => {
 
     endpoints.MapControllerRoute(
         "default",
-    "{controller=Home}/{action=Index}/{id?}"
+        "{controller=Home}/{action=Index}/{id?}"
 
     );
 
     endpoints.MapRazorPages();
+
+    endpoints.MapControllers(); //api
 });
 
 app.ConfigureAndCheckMigration(); //auto migration(update işlemi otomatik olacak.)

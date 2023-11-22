@@ -34,6 +34,7 @@ namespace StoreApp.Controllers
         public IActionResult Get([FromRoute(Name ="id")] int id)
         {
             var model= _manager.ProductService.GetOneProduct(id,false);
+            ViewData["Tittle"]=model.ProductName;
             return View(model);  
         }
     }

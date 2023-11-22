@@ -6,7 +6,6 @@ namespace Entities.Models
     {
         public int OrderId { get; set; }
 
-
         public ICollection<CartLine> Lines {get; set;} =new List<CartLine>();
 
         [Required(ErrorMessage ="Name is required.")]
@@ -21,9 +20,6 @@ namespace Entities.Models
         public bool GiftWrap {get; set; }
         public bool Shipped { get; set; }
         public DateTime OrderedAt { get; set; } = DateTime.Now;
-
-
-
-        
+   
     } 
 }

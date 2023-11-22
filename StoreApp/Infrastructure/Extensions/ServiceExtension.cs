@@ -1,4 +1,5 @@
 using Entities.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -30,7 +31,7 @@ namespace StoreApp.Infrastructure.Extension
         {
             services.AddIdentity<IdentityUser,IdentityRole>(options => 
             {
-                options.SignIn.RequireConfirmedEmail=false; //kişi mailini onaylamadığı sürece oturum açmaya izin verme durummu
+                options.SignIn.RequireConfirmedEmail=false; 
                 options.User.RequireUniqueEmail=true;
                 options.Password.RequireUppercase=false;
                 options.Password.RequireLowercase=false;
@@ -68,6 +69,17 @@ namespace StoreApp.Infrastructure.Extension
             services.AddScoped<IOrderService,OrderManager>();
             services.AddScoped<IAuthService,AuthManager>();
 
+        }
+        public static void ConfigureApplicationCookie(this IServiceCollection services)
+        {
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath=new PathString("/Account/Login");
+                options.ReturnUrlParameter=CookieAuthenticationDefaults.ReturnUrlParameter; 
+                options.ExpireTimeSpan=TimeSpan.FromMinutes(10);
+                options.AccessDeniedPath=new PathString("/Account/AccessDenied");
+
+            });
         }
 
         public static void ConfigureRouting(this IServiceCollection services )

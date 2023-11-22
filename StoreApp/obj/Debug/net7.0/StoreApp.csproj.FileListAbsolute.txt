@@ -86,3 +86,6 @@ C:\MVC\Store\StoreApp\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrame
 C:\MVC\Store\StoreApp\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
 C:\MVC\Store\StoreApp\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
 C:\MVC\Store\StoreApp\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
+C:\MVC\Store\StoreApp\bin\Debug\net7.0\Presentation.dll
+C:\MVC\Store\StoreApp\bin\Debug\net7.0\Presentation.pdb
+C:\MVC\Store\StoreApp\obj\Debug\net7.0\StoreApp.MvcApplicationPartsAssemblyInfo.cs

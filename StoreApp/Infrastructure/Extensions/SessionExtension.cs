@@ -22,5 +22,4 @@ namespace StoreApp.Infrastructure.Extension
                 : JsonSerializer.Deserialize<T>(data);
        }
     }
-    
 }

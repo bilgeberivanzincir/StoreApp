@@ -1,6 +1,7 @@
 using AutoMapper;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.VisualBasic;
 using Services.Contracts;
 
 namespace Services
@@ -40,6 +41,13 @@ namespace Services
             return result;
         }
 
+        public async Task<IdentityResult> DeleteOneUser(string userName)
+        {
+            var user = await GetOneUser(userName);
+             return await _userManager.DeleteAsync(user);
+
+        }
+
         public IEnumerable<IdentityUser> GetAllUsers()
         {
             return _userManager.Users.ToList();
@@ -47,22 +55,30 @@ namespace Services
 
         public async Task<IdentityUser> GetOneUser(string userName)
         {
-            return await _userManager.FindByNameAsync(userName);
+            var user = await _userManager.FindByNameAsync(userName);
+            if(user is not null)
+                return user;
+            throw new Exception("User could not be found.");
         }
+
 
         public async Task<UserDtoForUpdate> GetOneUserForUpdate(string userName)
         {
             var user = await GetOneUser(userName);
-            if(user is not null)
-            {
-                var userDto= _mapper.Map<UserDtoForUpdate>(user);
-                userDto.Roles= new HashSet<string>(Roles.Select(r=>r.Name).ToList());
-                userDto.UserRoles= new HashSet<string>(await _userManager.GetRolesAsync(user));
-                return userDto;
+            var userDto= _mapper.Map<UserDtoForUpdate>(user);
+            userDto.Roles= new HashSet<string>(Roles.Select(r=>r.Name).ToList());
+            userDto.UserRoles= new HashSet<string>(await _userManager.GetRolesAsync(user));
+            return userDto;
 
-            }
+        }
 
-            throw new Exception("An error occured.");
+        public async Task<IdentityResult> ResetPassword(ResetPasswordDto model)
+        {
+            var user= await GetOneUser(model.UserName);
+            await _userManager.RemovePasswordAsync(user);
+            var result = await _userManager.AddPasswordAsync(user,model.Password);
+            return result;
+            
         }
 
         public async Task Update(UserDtoForUpdate userDto)
